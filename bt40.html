@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinePulse - Movie Discovery App | Phan Thị Hoàng Yến - 231A010397</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & THEMING (Light / Dark Mode)
+           ========================================================================== */
+        :root {
+            /* Light Mode Colors */
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --accent-color: #6366f1;
+            --accent-hover: #4f46e5;
+            --accent-light: #e0e7ff;
+            --accent-badge: #4f46e5;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            --card-hover-shadow: 0 20px 25px -5px rgba(99, 102, 241, 0.15), 0 10px 10px -5px rgba(99, 102, 241, 0.04);
+            --input-bg: #f1f5f9;
+            --tag-bg: #f1f5f9;
+            --tag-text: #334155;
+            --star-color: #f59e0b;
+            --overlay-bg: rgba(15, 23, 42, 0.65);
+        }
+
+        body.dark-mode {
+            /* Dark Mode Colors */
+            --bg-primary: #0b0f19;
+            --bg-secondary: #111827;
+            --bg-card: #1e293b;
+            --bg-glass: rgba(30, 41, 59, 0.85);
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --accent-color: #818cf8;
+            --accent-hover: #6366f1;
+            --accent-light: rgba(99, 102, 241, 0.2);
+            --accent-badge: #818cf8;
+            --border-color: #334155;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --card-hover-shadow: 0 20px 25px -5px rgba(129, 140, 248, 0.25);
+            --input-bg: #0f172a;
+            --tag-bg: #334155;
+            --tag-text: #e2e8f0;
+            --overlay-bg: rgba(0, 0, 0, 0.8);
+        }
+
+        /* ==========================================================================
+           2. BASE RESET & GENERAL STYLES
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==========================================================================
+           3. HEADER & NAVBAR
+           ========================================================================== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background-color: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .logo-text h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Previous Assignments Dropdown/Links */
+        .assignments-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--input-bg);
+            padding: 0.35rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .assignments-nav span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .assignment-btn {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .assignment-btn:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-1px);
+        }
+
+        /* Theme Toggle Switch */
+        .theme-toggle-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.55rem 0.9rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--accent-color);
+        }
+
+        /* ==========================================================================
+           4. MAIN LAYOUT (CSS GRID)
+           ========================================================================== */
+        .main-wrapper {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            width: 100%;
+            flex: 1;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        /* ==========================================================================
+           5. SIDEBAR (FILTERS & CONTROLS)
+           ========================================================================== */
+        aside.sidebar {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .filter-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--text-primary);
+        }
+
+        .filter-group {
+            margin-bottom: 1.75rem;
+        }
+
+        .filter-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        /* Search Box & Debounce Indicator */
+        .search-box-wrapper {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Debounce Spinner Badge */
+        .debounce-spinner {
+            position: absolute;
+            right: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        /* Checkbox Genres List */
+        .genre-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            max-height: 280px;
+            overflow-y: auto;
+            padding-right: 0.3rem;
+        }
+
+        /* Custom Scrollbar for Genre List */
+        .genre-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .genre-list::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .genre-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            cursor: pointer;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.3rem 0.4rem;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .genre-checkbox-item:hover {
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        .genre-checkbox-item input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            background-color: var(--bg-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .genre-checkbox-item input[type="checkbox"]:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .genre-checkbox-item input[type="checkbox"]:checked::after {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 0.65rem;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Reset Button */
+        .btn-reset {
+            width: 100%;
+            padding: 0.65rem;
+            border-radius: 10px;
+            border: 1px dashed var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--input-bg);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* ==========================================================================
+           6. MAIN CONTENT & MOVIE GRID
+           ========================================================================== */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-secondary);
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .results-count {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .results-count strong {
+            color: var(--accent-color);
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Movie Card Design */
+        .movie-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-hover-shadow);
+            border-color: var(--accent-color);
+        }
+
+        .poster-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 145%; /* Aspect Ratio 1:1.45 */
+            overflow: hidden;
+            background-color: var(--input-bg);
+        }
+
+        .poster-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .movie-card:hover .poster-wrapper img {
+            transform: scale(1.06);
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.55rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .rating-badge i {
+            color: var(--star-color);
+        }
+
+        .movie-info {
+            padding: 1.1rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .movie-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: 0.4rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .movie-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .genre-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .genre-badge {
+            background-color: var(--tag-bg);
+            color: var(--tag-text);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-secondary);
+            border-radius: 18px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .empty-state i {
+            font-size: 3.5rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================================================
+           7. MODAL DIALOG (DETAIL VIEW)
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--overlay-bg);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            background-color: var(--bg-secondary);
+            border-radius: 24px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border-color);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .modal-content-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .modal-poster img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .modal-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .modal-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .modal-rating-badge {
+            background: #f59e0b;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .modal-overview {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .modal-info-block {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .modal-info-block p strong {
+            color: var(--text-primary);
+        }
+
+        /* ==========================================================================
+           8. FOOTER & STUDENT INFO
+           ========================================================================== */
+        footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .footer-student-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .student-badge {
+            background-color: var(--accent-light);
+            color: var(--accent-badge);
+            padding: 0.2rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+        }
+
+        /* ==========================================================================
+           9. RESPONSIVE BREAKPOINTS
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .main-wrapper {
+                grid-template-columns: 240px 1fr;
+                gap: 1.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            aside.sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .modal-content-grid {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .modal-poster {
+                max-width: 220px;
+                margin: 0 auto;
+            }
+
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+         HEADER / NAVBAR
+         ========================================================================== -->
+    <header>
+        <div class="header-container">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid => fa-film"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>CinePulse</h1>
+                    <p>Ứng Dụng Khám Phá Phim Nâng Cao</p>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <!-- Navigation to Previous Assignments -->
+                <nav class="assignments-nav">
+                    <span>Bài tập:</span>
+                    <a href="#bt37" class="assignment-btn" title="Chuyển đến Bài Tập 37">BT 37</a>
+                    <a href="#bt38" class="assignment-btn" title="Chuyển đến Bài Tập 38">BT 38</a>
+                    <a href="#bt39" class="assignment-btn" title="Chuyển đến Bài Tập 39">BT 39</a>
+                </nav>
+
+                <!-- Light / Dark Mode Toggle Switch -->
+                <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Đổi giao diện Sáng/Tối">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                    <span id="themeText">Chế độ tối</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+         MAIN LAYOUT (SIDEBAR + MOVIE GRID)
+         ========================================================================== -->
+    <main class="main-wrapper">
+        
+        <!-- SIDEBAR: Search & Filters -->
+        <aside class="sidebar">
+            <div class="filter-section-title">
+                <span><i class="fa-solid fa-filter"></i> Bộ Lọc Tìm Kiếm</span>
+            </div>
+
+            <!-- Filter 1: Real-time Search Box with Debounce -->
+            <div class="filter-group">
+                <label for="searchInput" class="filter-label">Tìm theo tên phim</label>
+                <div class="search-box-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Nhập tên phim cần tìm...">
+                    <div id="debounceSpinner" class="debounce-spinner"></div>
+                </div>
+            </div>
+
+            <!-- Filter 2: Dynamic Genre Checkboxes -->
+            <div class="filter-group">
+                <label class="filter-label">Thể Loại Phim</label>
+                <div id="genreContainer" class="genre-list">
+                    <!-- Dynamic Checkboxes will be rendered here by JS -->
+                </div>
+            </div>
+
+            <!-- Action: Reset Filters -->
+            <button id="resetFilterBtn" class="btn-reset">
+                <i class="fa-solid fa-rotate-left"></i> Đặt lại bộ lọc
+            </button>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <section class="content-area">
+            
+            <!-- Result Bar Info -->
+            <div class="results-header">
+                <div class="results-count">
+                    Hiển thị <strong id="movieCount">0</strong> bộ phim
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                    <i class="fa-solid fa-bolt" style="color: var(--star-color);"></i> Lọc tự động thời gian thực
+                </div>
+            </div>
+
+            <!-- Movie Cards Grid Container -->
+            <div id="movieGrid" class="movie-grid">
+                <!-- Movie Card items injected dynamically by JS -->
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ==========================================================================
+         MOVIE DETAIL MODAL POPUP
+         ========================================================================== -->
+    <div id="movieModal" class="modal-overlay">
+        <div class="modal-container">
+            <button id="modalCloseBtn" class="modal-close-btn" aria-label="Đóng cửa sổ">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="modal-content-grid">
+                <div class="modal-poster">
+                    <img id="modalPoster" src="" alt="Movie Poster Fallback">
+                </div>
+                <div class="modal-details">
+                    <h2 id="modalTitle" class="modal-title">Tên Phim</h2>
+                    
+                    <div class="modal-meta-row">
+                        <span id="modalRating" class="modal-rating-badge">
+                            <i class="fa-solid fa-star"></i> 0.0
+                        </span>
+                        <span id="modalYear">2024</span>
+                        <span>•</span>
+                        <span id="modalDuration">120 phút</span>
+                    </div>
+
+                    <div id="modalGenres" class="genre-tags">
+                        <!-- Dynamic Genre Tags -->
+                    </div>
+
+                    <p id="modalOverview" class="modal-overview">
+                        Mô tả chi tiết nội dung bộ phim sẽ xuất hiện tại đây...
+                    </p>
+
+                    <div class="modal-info-block">
+                        <p><strong>Đạo diễn:</strong> <span id="modalDirector">N/A</span></p>
+                        <p><strong>Diễn viên chính:</strong> <span id="modalCast">N/A</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         FOOTER & STUDENT CREDENTIALS
+         ========================================================================== -->
+    <footer>
+        <div class="footer-student-info">
+            <span>Sinh viên thực hiện: <strong>Phan Thị Hoàng Yến</strong></span>
+            <span class="student-badge">MSSV: 231A010397</span>
+            <span>Lớp Bài Tập: BT40</span>
+        </div>
+        <p>© 2026 CinePulse Movie Discovery App. Đã tối ưu hóa trải nghiệm người dùng & hiệu năng.</p>
+    </footer>
+
+    <!-- ==========================================================================
+         JAVASCRIPT LOGIC & APPLICATION CODE
+         ========================================================================== -->
+    <script>
+        /* ==========================================================================
+           1. DATASET: Mảng Dữ Liệu Phim Phong Phú
+           ========================================================================== */
+        const moviesData = [
+            {
+                id: 1,
+                title: "Spider-Man: No Way Home",
+                year: 2021,
+                rating: 8.2,
+                duration: "148 phút",
+                genres: ["Hành động", "Phiêu lưu", "Khoa học viễn tưởng"],
+                director: "Jon Watts",
+                cast: "Tom Holland, Zendaya, Benedict Cumberbatch",
+                poster: "https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&w=600&q=80",
+                overview: "Lần đầu tiên trong lịch sử điện ảnh của Spider-Man, danh tính của người hùng thân thiện xóm giềng bị tiết lộ, khiến trách nhiệm làm một Siêu Anh Hùng xung đột với cuộc sống bình thường và đặt những người anh quan tâm nhất vào nguy hiểm."
+            },
+            {
+                id: 2,
+                title: "Interstellar",
+                year: 2014,
+                rating: 8.7,
+                duration: "169 phút",
+                genres: ["Khoa học viễn tưởng", "Phiêu lưu", "Chính kịch"],
+                director: "Christopher Nolan",
+                cast: "Matthew McConaughey, Anne Hathaway, Jessica Chastain",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
+                overview: "Trong tương lai khi Trái Đất không còn khả năng duy trì sự sống, một nhóm nhà hành tinh học du hành qua lỗ sâu để tìm kiếm một ngôi nhà mới cho nhân loại."
+            },
+            {
+                id: 3,
+                title: "The Dark Knight",
+                year: 2008,
+                rating: 9.0,
+                duration: "152 phút",
+                genres: ["Hành động", "Tội phạm", "Chính kịch"],
+                director: "Christopher Nolan",
+                cast: "Christian Bale, Heath Ledger, Aaron Eckhart",
+                poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80",
+                overview: "Khi mối đe dọa mang tên Joker tàn phá thành phố Gotham, Batman phải chấp nhận một trong những thử thách tâm lý và thể xác lớn nhất để chống lại bất công."
+            },
+            {
+                id: 4,
+                title: "Inception",
+                year: 2010,
+                rating: 8.8,
+                duration: "148 phút",
+                genres: ["Hành động", "Khoa học viễn tưởng", "Bí ẩn"],
+                director: "Christopher Nolan",
+                cast: "Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page",
+                poster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+                overview: "Kẻ cắp Dom Cobb chuyên đánh cắp bí mật doanh nghiệp thông qua công nghệ chia sẻ giấc mơ. Giờ đây anh được giao nhiệm vụ ngược lại: cấy một ý tưởng vào tâm trí của một CEO."
+            },
+            {
+                id: 5,
+                title: "Parasite (Ký Sinh Trùng)",
+                year: 2019,
+                rating: 8.5,
+                duration: "132 phút",
+                genres: ["Hài hước", "Chính kịch", "Kinh dị"],
+                director: "Bong Joon Ho",
+                cast: "Song Kang-ho, Lee Sun-kyun, Cho Yeo-jeong",
+                poster: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80",
+                overview: "Sự phân hóa giàu nghèo sâu sắc trong xã hội hiện đại được khắc họa qua mối quan hệ cộng sinh giữa hai gia đình thuộc hai tầng lớp hoàn toàn đối lập tại Seoul."
+            },
+            {
+                id: 6,
+                title: "Spirited Away (Vùng Đất Hồn Ma)",
+                year: 2001,
+                rating: 8.6,
+                duration: "125 phút",
+                genres: ["Hoạt hình", "Phiêu lưu", "Gia đình"],
+                director: "Hayao Miyazaki",
+                cast: "Rumi Hiiragi, Miyu Irano, Mari Natsuki",
+                poster: "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80",
+                overview: "Cô bé Chihiro 10 tuổi tình cờ lạc vào thế giới của những linh hồn và thần linh. Sau khi cha mẹ cô bị biến thành heo, cô phải làm việc tại nhà tắm công cộng của mụ phù thủy Yubaba để giải cứu họ."
+            },
+            {
+                id: 7,
+                title: "Avengers: Endgame",
+                year: 2019,
+                rating: 8.4,
+                duration: "181 phút",
+                genres: ["Hành động", "Phiêu lưu", "Khoa học viễn tưởng"],
+                director: "Anthony Russo, Joe Russo",
+                cast: "Robert Downey Jr., Chris Evans, Mark Ruffalo",
+                poster: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80",
+                overview: "Sau sự kiện tàn khốc của Infinity War, các thành viên còn lại của nhóm Avengers tập hợp một lần nữa để đảo ngược hành động của Thanos và khôi phục sự cân bằng cho vũ trụ."
+            },
+            {
+                id: 8,
+                title: "Your Name (Tên Cậu Là Gì?)",
+                year: 2016,
+                rating: 8.4,
+                duration: "106 phút",
+                genres: ["Hoạt hình", "Chính kịch", "Lãng mạn"],
+                director: "Makoto Shinkai",
+                cast: "Ryunosuke Kamiki, Mone Kamishiraishi",
+                poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
+                overview: "Hai người xa lạ Taki và Mitsuha phát hiện ra mình có mối liên kết kỳ lạ khi tráo đổi thân xác cho nhau trong giấc mơ, dẫn đến hành trình tìm kiếm nhau vượt qua thời gian."
+            }
+        ];
+
+        /* ==========================================================================
+           2. DOM ELEMENTS
+           ========================================================================== */
+        const movieGrid = document.getElementById('movieGrid');
+        const genreContainer = document.getElementById('genreContainer');
+        const searchInput = document.getElementById('searchInput');
+        const debounceSpinner = document.getElementById('debounceSpinner');
+        const resetFilterBtn = document.getElementById('resetFilterBtn');
+        const movieCount = document.getElementById('movieCount');
+
+        // Modal Elements
+        const movieModal = document.getElementById('movieModal');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalPoster = document.getElementById('modalPoster');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalRating = document.getElementById('modalRating');
+        const modalYear = document.getElementById('modalYear');
+        const modalDuration = document.getElementById('modalDuration');
+        const modalGenres = document.getElementById('modalGenres');
+        const modalOverview = document.getElementById('modalOverview');
+        const modalDirector = document.getElementById('modalDirector');
+        const modalCast = document.getElementById('modalCast');
+
+        // Theme Toggle Elements
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+
+        // State Management
+        let selectedGenres = [];
+        let searchQuery = '';
+
+        /* ==========================================================================
+           3. APPLICATION INITIALIZATION & CORE LOGIC
+           ========================================================================== */
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            generateGenreCheckboxes();
+            renderMovies(moviesData);
+            setupEventListeners();
+        });
+
+        /* ==========================================================================
+           4. LIGHT / DARK MODE TOGGLE (WITH LOCALSTORAGE PERSISTENCE)
+           ========================================================================== */
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+                updateThemeUI(true);
+            } else {
+                document.body.classList.remove('dark-mode');
+                updateThemeUI(false);
+            }
+        }
+
+        function toggleTheme() {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            updateThemeUI(isDarkMode);
+        }
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                themeIcon.className = 'fa-solid fa-sun';
+                themeText.textContent = 'Chế độ sáng';
+            } else {
+                themeIcon.className = 'fa-solid fa-moon';
+                themeText.textContent = 'Chế độ tối';
+            }
+        }
+
+        /* ==========================================================================
+           5. DYNAMIC GENRE DETECTION & GENERATION (NO HARDCODING)
+           ========================================================================== */
+        function generateGenreCheckboxes() {
+            // Extract all unique genres dynamically from moviesData
+            const allGenres = moviesData.reduce((acc, movie) => {
+                movie.genres.forEach(genre => {
+                    if (!acc.includes(genre)) acc.push(genre);
+                });
+                return acc;
+            }, []).sort();
+
+            genreContainer.innerHTML = '';
+
+            allGenres.forEach(genre => {
+                const label = document.createElement('label');
+                label.className = 'genre-checkbox-item';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = genre;
+                checkbox.addEventListener('change', handleGenreChange);
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(` ${genre}`));
+                genreContainer.appendChild(label);
+            });
+        }
+
+        function handleGenreChange(e) {
+            const genre = e.target.value;
+            if (e.target.checked) {
+                selectedGenres.push(genre);
+            } else {
+                selectedGenres = selectedGenres.filter(g => g !== genre);
+            }
+            filterAndRenderMovies();
+        }
+
+        /* ==========================================================================
+           6. DEBOUNCE FUNCTION FOR SEARCH PERFORMANCE OPTIMIZATION
+           ========================================================================== */
+        function debounce(func, delay = 350) {
+            let timeoutId;
+            return function(...args) {
+                // Show loading spinner while typing
+                debounceSpinner.style.display = 'block';
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => {
+                    func.apply(this, args);
+                    debounceSpinner.style.display = 'none';
+                }, delay);
+            };
+        }
+
+        const handleSearchInput = debounce((e) => {
+            searchQuery = e.target.value.trim().toLowerCase();
+            filterAndRenderMovies();
+        }, 350);
+
+        /* ==========================================================================
+           7. COMBINED FILTERING LOGIC (SEARCH + GENRES)
+           ========================================================================== */
+        function filterAndRenderMovies() {
+            const filteredMovies = moviesData.filter(movie => {
+                // 1. Title Filter
+                const matchesSearch = movie.title.toLowerCase().includes(searchQuery);
+
+                // 2. Genre Filter (Movie must match ALL or ANY selected genre - implementation uses ANY)
+                const matchesGenre = selectedGenres.length === 0 || 
+                    selectedGenres.some(selected => movie.genres.includes(selected));
+
+                return matchesSearch && matchesGenre;
+            });
+
+            renderMovies(filteredMovies);
+        }
+
+        /* ==========================================================================
+           8. MOVIE RENDERER & CARD DISPLAY
+           ========================================================================== */
+        function renderMovies(movies) {
+            movieGrid.innerHTML = '';
+            movieCount.textContent = movies.length;
+
+            if (movies.length === 0) {
+                movieGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-film-slash"></i>
+                        <h3>Không tìm thấy bộ phim phù hợp</h3>
+                        <p>Thử điều chỉnh từ khóa tìm kiếm hoặc bỏ chọn một số bộ lọc thể loại.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            movies.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.onclick = () => openModal(movie);
+
+                const genreBadgesHTML = movie.genres.slice(0, 2).map(g => `<span class="genre-badge">${g}</span>`).join('');
+
+                card.innerHTML = `
+                    <div class="poster-wrapper">
+                        <img src="${movie.poster}" alt="${movie.title}" onerror="this.onerror=null; this.src='https://placehold.co/400x600/1e293b/ffffff?text=${encodeURIComponent(movie.title)}';">
+                        <div class="rating-badge">
+                            <i class="fa-solid fa-star"></i> ${movie.rating}
+                        </div>
+                    </div>
+                    <div class="movie-info">
+                        <div>
+                            <h3 class="movie-title">${movie.title}</h3>
+                            <div class="movie-meta">
+                                <span><i class="fa-regular fa-calendar"></i> ${movie.year}</span>
+                                <span><i class="fa-regular fa-clock"></i> ${movie.duration}</span>
+                            </div>
+                        </div>
+                        <div class="genre-tags">
+                            ${genreBadgesHTML}
+                        </div>
+                    </div>
+                `;
+
+                movieGrid.appendChild(card);
+            });
+        }
+
+        /* ==========================================================================
+           9. MODAL INTERACTION LOGIC
+           ========================================================================== */
+        function openModal(movie) {
+            modalPoster.src = movie.poster;
+            modalPoster.onerror = () => {
+                modalPoster.src = `https://placehold.co/400x600/1e293b/ffffff?text=${encodeURIComponent(movie.title)}`;
+            };
+            modalTitle.textContent = movie.title;
+            modalRating.innerHTML = `<i class="fa-solid fa-star"></i> ${movie.rating}`;
+            modalYear.textContent = movie.year;
+            modalDuration.textContent = movie.duration;
+            modalOverview.textContent = movie.overview;
+            modalDirector.textContent = movie.director;
+            modalCast.textContent = movie.cast;
+
+            modalGenres.innerHTML = movie.genres.map(g => `<span class="genre-badge">${g}</span>`).join('');
+
+            movieModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeModal() {
+            movieModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        /* ==========================================================================
+           10. EVENT LISTENERS SETUP
+           ========================================================================== */
+        function setupEventListeners() {
+            // Theme Toggle
+            themeToggleBtn.addEventListener('click', toggleTheme);
+
+            // Search input with debounce
+            searchInput.addEventListener('input', handleSearchInput);
+
+            // Reset Filter Button
+            resetFilterBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                selectedGenres = [];
+
+                // Uncheck all checkboxes
+                const checkboxes = genreContainer.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => cb.checked = false);
+
+                filterAndRenderMovies();
+            });
+
+            // Modal Close triggers
+            modalCloseBtn.addEventListener('click', closeModal);
+
+            movieModal.addEventListener('click', (e) => {
+                if (e.target === movieModal) closeModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && movieModal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
