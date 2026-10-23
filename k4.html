@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>K4: Phân Trang Danh Sách</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        ul { padding-left: 20px; }
+        .pagination button { margin-right: 5px; padding: 5px 10px; cursor: pointer; }
+        .pagination button.active { background: #4a90e2; color: white; border: none; }
+        a { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #4a90e2; }
+    </style>
+</head>
+<body>
+    <a href="bt39.html">&larr; Quay lại trang chủ</a>
+    <h2>Bài tập K4: Phân Trang Danh Sách (50 mục)</h2>
+    <ul id="itemList"></ul>
+    <div class="pagination" id="pagination"></div>
+
+    <script>
+        const data = Array.from({ length: 50 }, (_, i) => `Mục số ${i + 1}`);
+        const itemsPerPage = 10;
+        let currentPage = 1;
+
+        function displayList(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedItems = data.slice(start, end);
+            
+            let html = "";
+            paginatedItems.forEach(item => { html += `<li>${item}</li>`; });
+            document.getElementById("itemList").innerHTML = html;
+        }
+
+        function setupPagination() {
+            const pageCount = Math.ceil(data.length / itemsPerPage);
+            let html = "";
+            for (let i = 1; i <= pageCount; i++) {
+                html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            document.getElementById("pagination").innerHTML = html;
+        }
+
+        window.changePage = function(page) {
+            currentPage = page;
+            displayList(page);
+            setupPagination();
+        }
+
+        displayList(currentPage);
+        setupPagination();
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>K8: Tính Chỉ Số BMI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        input { display: block; margin-bottom: 10px; padding: 8px; width: 200px; }
+        button { padding: 8px 15px; background: #4a90e2; color: white; border: none; cursor: pointer; }
+        a { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #4a90e2; }
+    </style>
+</head>
+<body>
+    <a href="bt39.html">&larr; Quay lại trang chủ</a>
+    <h2>Bài tập K8: Tính Chỉ Số BMI và Phân Loại</h2>
+    <label>Cân nặng (kg):</label>
+    <input type="number" id="weight" placeholder="Ví dụ: 60">
+    <label>Chiều cao (m):</label>
+    <input type="number" step="0.01" id="height" placeholder="Ví dụ: 1.70">
+    <button onclick="tinhBMI()">Tính BMI</button>
+    <p>Kết quả: <strong id="bmiResult"></strong></p>
+
+    <script>
+        function tinhBMI() {
+            let w = parseFloat(document.getElementById("weight").value);
+            let h = parseFloat(document.getElementById("height").value);
+            if (!w || !h || h <= 0) {
+                document.getElementById("bmiResult").innerText = "Vui lòng nhập giá trị hợp lệ!";
+                return;
+            }
+            let bmi = w / (h * h);
+            let classification = "";
+            if (bmi < 18.5) {
+                classification = "Thiếu cân";
+            } else if (bmi < 24.9) {
+                classification = "Bình thường";
+            } else {
+                classification = "Thừa cân";
+            }
+            document.getElementById("bmiResult").innerText = `BMI = ${bmi.toFixed(2)} (${classification})`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>TK7: Tạo chuỗi ngẫu nhiên</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        button { padding: 10px 15px; background: #4a90e2; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        a { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #4a90e2; }
+    </style>
+</head>
+<body>
+    <a href="bt39.html">&larr; Quay lại trang chủ</a>
+    <h2>Bài tập TK7: Tạo chuỗi ngẫu nhiên 8 ký tự</h2>
+    <button onclick="taoChuoi()">Tạo mật khẩu</button>
+    <p>Kết quả: <strong id="result" style="color: red;"></strong></p>
+
+    <script>
+        function taoChuoi() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let result = "";
+            for (let i = 0; i < 8; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById("result").innerText = result;
+        }
+    </script>
+</body>
+</html>

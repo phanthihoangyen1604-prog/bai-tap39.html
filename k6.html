@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>K6: Xử lý sự kiện bàn phím</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        #box { width: 50px; height: 50px; background-color: #4a90e2; position: absolute; top: 150px; left: 50px; }
+        a { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #4a90e2; }
+    </style>
+</head>
+<body>
+    <a href="bt39.html">&larr; Quay lại trang chủ</a>
+    <h2>Bài tập K6: Dùng phím mũi tên LÊN / XUỐNG để di chuyển khối</h2>
+    <div id="box"></div>
+
+    <script>
+        const box = document.getElementById("box");
+        let posY = 150;
+
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowUp") {
+                posY -= 10;
+                box.style.top = posY + "px";
+            } else if (e.key === "ArrowDown") {
+                posY += 10;
+                box.style.top = posY + "px";
+            }
+        });
+    </script>
+</body>
+</html>
